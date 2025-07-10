@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Script prints answers about TCP and UDP
+
+echo "Which statement is correct for the TCP box:"
+echo "It is a protocol that is transferring data in a slow way but surely"
+echo
+echo "Which statement is correct for the UDP box:"
+echo "It is a protocol that is transferring data in a fast way and might loss data along in the process"
+echo
+echo "Which statement is correct for the TCP worker:"
+echo "Have you received boxes x, y, z?"
