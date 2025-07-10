@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# This script displays all listening sockets with PID and program name.
+
+ss -tulnp | grep LISTEN
