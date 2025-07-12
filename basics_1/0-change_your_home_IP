@@ -1,19 +1,21 @@
 #!/usr/bin/env bash
-# This script modifies /etc/hosts to map localhost to 127.0.0.2 and facebook.com to 8.8.8.8
+# This script maps localhost to 127.0.0.2 and facebook.com to 8.8.8.8 in /etc/hosts
 
 set -e
 
-# Backup the original hosts file
+# Ehtiyat nüsxə
 sudo cp /etc/hosts /etc/hosts.bak
 
-# Remove old entries if they exist
-sudo sed -i '/127.0.0.1[[:space:]]*localhost/d' /etc/hosts
-sudo sed -i '/facebook.com/d' /etc/hosts
+# Mövcud sətirləri süzgəcdən keçir və yeni olanları əlavə et
+sudo awk '
+/localhost/ { next }
+/facebook\.com/ { next }
+{ print }
+END {
+    print "127.0.0.2 localhost"
+    print "8.8.8.8 facebook.com"
+}
+' /etc/hosts | sudo tee /tmp/hosts.modified > /dev/null
 
-# Add new entries
-echo "127.0.0.2 localhost" | sudo tee -a /etc/hosts > /dev/null
-echo "8.8.8.8 facebook.com" | sudo tee -a /etc/hosts > /dev/null
-
-echo "✅ /etc/hosts has been updated:"
-echo "  - localhost -> 127.0.0.2"
-echo "  - facebook.com -> 8.8.8.8"
+# İndi faylı üzərinə yaz (mv yox!)
+sudo cp /tmp/hosts.modified /etc/hosts
