@@ -1,4 +1,11 @@
 #!/usr/bin/env bash
-# This script displays all active IPv4 addresses on the machine using ifconfig
+# This script displays all active IPv4 addresses on the machine
 
-ifconfig | grep -Eo 'inet (addr:)?([0-9]{1,3}\.){3}[0-9]{1,3}' | grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}' | grep -v '^127'
+if command -v ip > /dev/null 2>&1; then
+    # Use ip command if available
+    ip -4 -o addr show | awk '{print $4}' | cut -d/ -f1
+else
+    # Fallback to ifconfig + grep
+    ifconfig | grep -Eo 'inet (addr:)?([0-9]{1,3}\.){3}[0-9]{1,3}' | \
+    grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'
+fi
